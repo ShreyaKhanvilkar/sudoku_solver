@@ -14,7 +14,7 @@ board = [
 def solve(x):
     find = find_empty(x)
     if not find:
-        return True
+        return True    #board is completed solved
     else:
         row, col = find
 
@@ -22,14 +22,18 @@ def solve(x):
         if valid(x, i, (row, col)):
             x[row][col] = i
 
+            #backtracking (recursion)
             if solve(x):
-                return True
+                return True    #acceptable solution if found for next empty cell
 
+            #if next acceptable solution is not found, cell value is set back to zero
             x[row][col] = 0
 
     return False
 
 
+# takes in board, (in loop for numbers 1 to 9), and given empty cell
+# checks board and returns true if an acceptable solution is found, else returns false
 def valid(x, number, position):
     # Check row
     for i in range(len(x[0])):
@@ -52,22 +56,23 @@ def valid(x, number, position):
 
     return True
 
-
+# printing cleaned up version of board
 def print_board(x):
     for i in range(len(x)):
         if i % 3 == 0 and i != 0:
-            print("- - - - - - - - - - - -")
+            print("- - - - - - - - - - -")
 
         for j in range(len(x[0])):
             if j % 3 == 0 and j != 0:
-                print(" | ", end="")
+                print("| ", end="")
 
             if j != 8:
                 print(str(x[i][j]) + " ", end="")
             else:
                 print(x[i][j])
 
-
+# takes in board, uses length and width of board to find the next empty cell on board
+# if empty cell is found, it is returned, else returns NONE
 def find_empty(x):
     for i in range(len(x)):
         for j in range(len(x[0])):
@@ -76,7 +81,10 @@ def find_empty(x):
 
     return None
 
+print("\n")
 print_board(board)
-solve(board)
 print("\n\n")
-print_board(board)
+if solve(board):
+    print_board(board)
+else:
+    print("Board cannot be solved.")
